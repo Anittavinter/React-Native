@@ -1,80 +1,41 @@
 import React from 'react';
-import { Platform, View } from 'react-native';
-import Constants from 'expo-constants';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import DirectoryScreen from './DirectoryScreen';
-import CampsiteInfoScreen from './CampsiteInfoScreen';
-import HomeScreen from './HomeScreen';  
+import { createStackNavigator } from '@react-navigation/stack';
+import AboutScreen from './screens/AboutScreen';
+import ContactScreen from './screens/ContactScreen';
+import HomeScreen from './screens/HomeScreen';
+import DirectoryScreen from './screens/DirectoryScreen';
 
-const screenOptions = {
-    headerTintColor: '#fff',
-    headerStyle: { backgroundColor: '#5637DD' },
-};
-
-const HomeNavigator = () => {
-    const Stack = createStackNavigator();
-    
-    return (
-        <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={{ title: 'Home' }}  
-            />
-        </Stack.Navigator>
-    );
-};
-
-const DirectoryNavigator = () => {
-    const Stack = createStackNavigator();
-    
-    return (
-        <Stack.Navigator screenOptions={screenOptions}>
-            <Stack.Screen
-                name="Directory"
-                component={DirectoryScreen}
-                options={{ title: 'Campsite Directory' }}
-            />
-            <Stack.Screen
-                name="CampsiteInfo"
-                component={CampsiteInfoScreen}
-                options={({ route }) => ({
-                    title: route.params.campsite.name,
-                })}
-            />
-        </Stack.Navigator>
-    );
-};
-
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const Main = () => {
-    return (
-        <View style={{ flex: 1, paddingTop: Platform.OS === 'ios' ? 0 : Constants.statusBarHeight }}>
-            <Drawer.Navigator
-                initialRouteName="HomeNav"
-                screenOptions={{
-                    drawerStyle: {
-                        backgroundColor: '#CEC8FF',
-                    },
-                }}
-            >
-                <Drawer.Screen
-                    name="HomeNav"
-                    component={HomeNavigator}
-                    options={{ title: 'Home' }}  
-                />
-                <Drawer.Screen
-                    name="DirectoryNav"
-                    component={DirectoryNavigator}
-                    options={{ title: 'Directory' }}  
-                />
-            </Drawer.Navigator>
-        </View>
-    );
+const AboutNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="About" component={AboutScreen} />
+    </Stack.Navigator>
+  );
 };
 
-export default Main;
+const ContactNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Contact" component={ContactScreen} options={{ title: 'Contact Us' }} />
+    </Stack.Navigator>
+  );
+};
+
+const MainComponent = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Directory" component={DirectoryScreen} />
+      <Drawer.Screen name="AboutNav" component={AboutNavigator} />
+      <Drawer.Screen name="ContactNav" component={ContactNavigator} options={{ title: 'Contact Us' }} />
+    </Drawer.Navigator>
+  );
+};
+
+export default MainComponent;
 
 
